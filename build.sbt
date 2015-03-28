@@ -11,4 +11,6 @@ libraryDependencies ++= Seq( jdbc , anorm , cache , ws,
   "dnsjava" % "dnsjava" % "2.1.6"
 )
 
-unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )  
+unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/test" )
+
+packageArchetype.java_application
