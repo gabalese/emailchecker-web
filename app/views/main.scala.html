@@ -2,11 +2,50 @@
 <html>
     <head>
         <title>Email checker</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
         <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.9.0.min.js")" type="text/javascript"></script>
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/bootstrap-theme.min.css")">
+        <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular.js" type="text/javascript"></script>
     </head>
-    <body>
-        <div>Content?</div>
+    <body ng-app="formApp" ng-controller="formController">
+
+        <div class="container">
+            <div class="starter-template">
+                <h1>Email checker</h1>
+                <p class="lead">Check if any given email is <em>really</em> existing.</p>
+                <p class="small"><em>Caveats go here...</em></p>
+            </div>
+            <div class="row">
+                <form ng-submit="submit()">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Enter email" ng-model="Data.email">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+                <div class="alert" role="alert" ng-class="{'alert-success': Result.status == success}" ng-bind="Result.message"></div>
+            </div>
+        </div>
+
     </body>
+    <script src="@routes.Assets.at("javascripts/bootstrap.min.js")" type="text/javascript"></script>
+
+    <script>
+        var formApp = angular.module('formApp', []);
+        formApp.controller("formController", function($scope, $http) {
+
+            $scope.Result = {};
+
+            $scope.submit = function(){
+             $scope.Result.message = "Wait...";
+             $http({
+               method  : 'GET',
+               url     : '/check/'+$scope.Data.email
+              }).success(function(data){
+                $scope.Result = data;
+              })
+            }
+        })
+    </script>
 </html>
